@@ -30,27 +30,36 @@ const previewFile = (file) => {
     //色解析
     const showcolors = (colors) => {
       const palettelist = document.querySelectorAll('.js-palette');
-
       palettelist.forEach((paletteItem, index) => {
         paletteItem.style.backgroundColor = `rgb(${colors[index][0]},${colors[index][1]},${colors[index][2]})`
       });
     };
+    const showobjects = (objects) => {
+      const objectlist = document.querySelectorAll('.js-objects');
+      objectlist.forEach((objectItem, index) => {
+        console.log(objects[index].label);
+        objectItem.innerHTML = `<b>${objects[index].label}</b>`
+      });
+    };
+
     img.src = imageUrl; // URLをimg要素にセット
     preview.appendChild(img); // #previewの中に追加
 
     if (img.complete) {
       classifier.classify(img, (err, results) => {
-       console.log(err, results)
+        objects = (err, results);
+        showobjects(objects);
       });
-      colors = colorThief.getPalette(img, 5);
+      colors = colorThief.getPalette(img, 10);
       showcolors(colors);
 
     } else {
       img.addEventListener('load', () => {
         classifier.classify(img, (err, results) => {
-          console.log(err, results);
+          objects = (err, results);
+          showobjects(objects);
         });
-        colors = colorThief.getPalette(img, 5);
+        colors = colorThief.getPalette(img, 10);
         showcolors(colors);
       });
     }
