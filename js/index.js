@@ -32,8 +32,14 @@ const previewFile = (file) => {
       const palettelist = document.querySelectorAll('.js-palette');
       palettelist.forEach((paletteItem, index) => {
         paletteItem.style.backgroundColor = `rgb(${colors[index][0]},${colors[index][1]},${colors[index][2]})`
+        //SVGの色変換
+        const pathList = document.querySelectorAll(`.path`);
+          pathList.forEach((pathItem, index) => {
+            pathItem.style.fill = `rgb(${colors[index][0]},${colors[index][1]},${colors[index][2]})`;
+          });
       });
     };
+    //かたち解析
     const showobjects = (objects) => {
       const objectlist = document.querySelectorAll('.js-objects');
       objectlist.forEach((objectItem, index) => {
