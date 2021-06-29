@@ -16,10 +16,59 @@ const modelLoaded = () => {
   fileInput.addEventListener("change", handleFileSelect);
 };
 
+//カメラ
+window.onload = () => {
+  const video  = document.querySelector("#camera");
+  const canvas = document.querySelector("#picture");
+  const se     = document.querySelector('#se');
+
+  /** カメラ設定 */
+  const constraints = {
+    audio: false,
+    video: {
+      width: { min: 800, max: 1920 },
+      height: { min: 600, max: 1080 },
+      facingMode:  { exact: "environment" }   // フロントカメラを利用する
+      // facingMode: { exact: "environment" }  // リアカメラを利用する場合
+    }
+  };
+
+  /**
+   * カメラを<video>と同期
+   */
+  navigator.mediaDevices.getUserMedia(constraints)
+  .then( (stream) => {
+    video.srcObject = stream;
+    video.onloadedmetadata = (e) => {
+      video.play();
+    };
+  })
+  .catch( (err) => {
+    console.log(err.name + ": " + err.message);
+  });
+
+  /**
+   * シャッターボタン
+   */
+   document.querySelector("#shutter").addEventListener("click", () => {
+    const ctx = canvas.getContext("2d");
+
+    // 演出的な目的で一度映像を止めてSEを再生する
+    video.pause();  // 映像を停止
+    se.play();      // シャッター音
+    setTimeout( () => {
+      video.play();    // 0.5秒後にカメラ再開
+    }, 500);
+
+    // canvasに画像を貼り付ける
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+  });
+};
+
 const previewFile = (file) => {
   // プレビュー画像を追加する要素
   // const preview = document.getElementById('preview');
-  const preview = document.getElementById('preview');
+  const preview = video;
 
   // FileReaderオブジェクトを作成
   const reader = new FileReader();
@@ -76,55 +125,6 @@ const previewFile = (file) => {
   // いざファイルをURLとして読み込む
   reader.readAsDataURL(file);
 }
-
-//カメラ
-window.onload = () => {
-  const video  = document.querySelector("#camera");
-  const canvas = document.querySelector("#picture");
-  const se     = document.querySelector('#se');
-
-  /** カメラ設定 */
-  const constraints = {
-    audio: false,
-    video: {
-      width: { min: 800, max: 1920 },
-      height: { min: 600, max: 1080 },
-      facingMode:  { exact: "environment" }   // フロントカメラを利用する
-      // facingMode: { exact: "environment" }  // リアカメラを利用する場合
-    }
-  };
-
-  /**
-   * カメラを<video>と同期
-   */
-  navigator.mediaDevices.getUserMedia(constraints)
-  .then( (stream) => {
-    video.srcObject = stream;
-    video.onloadedmetadata = (e) => {
-      video.play();
-    };
-  })
-  .catch( (err) => {
-    console.log(err.name + ": " + err.message);
-  });
-
-  /**
-   * シャッターボタン
-   */
-   document.querySelector("#shutter").addEventListener("click", () => {
-    const ctx = canvas.getContext("2d");
-
-    // 演出的な目的で一度映像を止めてSEを再生する
-    video.pause();  // 映像を停止
-    se.play();      // シャッター音
-    setTimeout( () => {
-      video.play();    // 0.5秒後にカメラ再開
-    }, 500);
-
-    // canvasに画像を貼り付ける
-    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-  });
-};
 
 // MobileNetによる画像分類法の初期化
 const classifier = ml5.imageClassifier('MobileNet', modelLoaded);
