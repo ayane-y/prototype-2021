@@ -1,7 +1,8 @@
 const colorThief = new ColorThief();
 const fileInput = document.getElementById('example');
 let colors;
-let picture;
+const getpalette;
+const getobject;
 
 // ファイルが change された時の処理
 const handleFileSelect = () => {
@@ -19,17 +20,17 @@ const modelLoaded = () => {
 
 //カメラ
 window.onload = () => {
-  const video  = document.querySelector("#camera");
-  const canvas = document.querySelector("#picture");
-  const se     = document.querySelector('#se');
+  const videoList  = document.querySelectorAll(".js-camera");
+  const canvasList = document.querySelectorAll(".js-picture");
+  const seList     = document.querySelectorAll('.js-se');
 
   /** カメラ設定 */
   const constraints = {
     audio: false,
     video: {
-      width: { min: 800, max: 1920 },
-      height: { min: 600, max: 1080 },
-      facingMode:  { exact: "environment" }   // フロントカメラを利用する
+      // width: { min: 800, max: 1920 },
+      // height: { min: 600, max: 1080 },
+      // facingMode:  { exact: "environment" }   // フロントカメラを利用する
       // facingMode: { exact: "environment" }  // リアカメラを利用する場合
     }
   };
@@ -39,10 +40,12 @@ window.onload = () => {
    */
   navigator.mediaDevices.getUserMedia(constraints)
   .then( (stream) => {
-    video.srcObject = stream;
-    video.onloadedmetadata = (e) => {
-      video.play();
-    };
+    videoList.forEach((video) => {
+      video.srcObject = stream;
+      video.onloadedmetadata = (e) => {
+        video.play();
+      };
+    });
   })
   .catch( (err) => {
     console.log(err.name + ": " + err.message);
@@ -51,20 +54,23 @@ window.onload = () => {
   /**
    * シャッターボタン
    */
-   document.querySelector("#shutter").addEventListener("click", () => {
-    const ctx = canvas.getContext("2d");
+   document.querySelectorAll(".js-shutter")
+  .forEach((shutter,index) =>　{
+    shutter.addEventListener("click", () => {
+      const ctx = canvasList.item(index).getContext("2d");
+  
+      // 演出的な目的で一度映像を止めてSEを再生する
+      videoList.item(index).pause();  // 映像を停止
+      // se.play();      // シャッター音
+      // setTimeout( () => {
+      //   video.play();    // 0.5秒後にカメラ再開
+      // }, 500);
+  
+      // canvasに画像を貼り付ける
+      ctx.drawImage(videoList.item(index), 0, 0, canvasList.item(index).width, canvasList.item(index).height);
+      picture = canvas;
 
-    // 演出的な目的で一度映像を止めてSEを再生する
-    video.pause();  // 映像を停止
-    se.play();      // シャッター音
-    setTimeout( () => {
-      video.play();    // 0.5秒後にカメラ再開
-    }, 500);
-
-    // canvasに画像を貼り付ける
-    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-    picture = canvas;
-
+    });
   });
 };
 
