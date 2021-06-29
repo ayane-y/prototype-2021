@@ -63,7 +63,7 @@ window.onload = () => {
 
     // canvasに画像を貼り付ける
     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-    picture = video;
+    picture = canvas;
 
   });
 };
