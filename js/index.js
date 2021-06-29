@@ -1,8 +1,15 @@
 const colorThief = new ColorThief();
 const fileInput = document.getElementById('example');
 let colors;
-const getpalette;
-const getobject;
+const getpalette = (canvas) => {
+  console.log(canvas)
+  var url = canvas.toDataURL() ;
+
+  var image = new Image() ;
+  image.src = url ;
+  document.body.appendChild( image ) ;
+};
+// const getobject;
 
 // ファイルが change された時の処理
 const handleFileSelect = () => {
@@ -68,8 +75,7 @@ window.onload = () => {
   
       // canvasに画像を貼り付ける
       ctx.drawImage(videoList.item(index), 0, 0, canvasList.item(index).width, canvasList.item(index).height);
-      picture = canvas;
-
+      getpalette(canvasList.item(index));
     });
   });
 };
