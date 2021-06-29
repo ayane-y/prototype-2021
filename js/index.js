@@ -1,6 +1,7 @@
 const colorThief = new ColorThief();
 const fileInput = document.getElementById('example');
 let colors;
+let picture;
 
 // ファイルが change された時の処理
 const handleFileSelect = () => {
@@ -62,13 +63,15 @@ window.onload = () => {
 
     // canvasに画像を貼り付ける
     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+    picture = video;
+
   });
 };
 
 const previewFile = (file) => {
   // プレビュー画像を追加する要素
   // const preview = document.getElementById('preview');
-  const preview = ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+  const preview = picture;
 
   // FileReaderオブジェクトを作成
   const reader = new FileReader();
