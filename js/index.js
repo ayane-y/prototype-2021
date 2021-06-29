@@ -68,7 +68,7 @@ window.onload = () => {
 const previewFile = (file) => {
   // プレビュー画像を追加する要素
   // const preview = document.getElementById('preview');
-  const preview = video;
+  const preview = ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 
   // FileReaderオブジェクトを作成
   const reader = new FileReader();
