@@ -55,8 +55,8 @@
     <!-- <script type="text/javascript" src="js/sketch.js"></script> -->
 
     <!-- カメラ-->
-    <video id="camera" width="300" height="200"></video>
-    <canvas id="picture" width="300" height="200"></canvas>
+    <video id="camera" width="800" height="600"></video>
+    <canvas id="picture" width="800" height="600"></canvas>
     <form>
       <button type="button" id="shutter">シャッター</button>
     </form>
@@ -110,7 +110,7 @@
         }, 500);
     
         // canvasに画像を貼り付ける
-        ctx.drawImage(video, 0, 0, video.width, video.height);
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
       });
     };
     </script>
