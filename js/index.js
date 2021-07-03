@@ -1,11 +1,10 @@
 const colorThief = new ColorThief();
-const fileInput = document.getElementById('example');
+var image = new Image() ;
+const fileInput = image;
 let colors;
 const getpalette = (canvas) => {
   console.log(canvas)
   var url = canvas.toDataURL() ;
-
-  var image = new Image() ;
   image.src = url ;
   document.body.appendChild( image ) ;
 };
@@ -82,8 +81,8 @@ window.onload = () => {
 
 const previewFile = (file) => {
   // プレビュー画像を追加する要素
-  // const preview = document.getElementById('preview');
-  const preview = picture;
+  const preview = document.getElementById('preview');
+  console.log(image);
 
   // FileReaderオブジェクトを作成
   const reader = new FileReader();
