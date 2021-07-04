@@ -2,11 +2,32 @@ const colorThief = new ColorThief();
 var image = new Image() ;
 const fileInput = image;
 let colors;
+//色解析
+const showcolors = (colors) => {
+  const palettelist = document.querySelectorAll('.js-palette');
+  palettelist.forEach((paletteItem, index) => {
+    paletteItem.style.backgroundColor = `rgb(${colors[index][0]},${colors[index][1]},${colors[index][2]})`
+    //SVGの色変換
+    const pathList = document.querySelectorAll(`.path`);
+      pathList.forEach((pathItem, index) => {
+        pathItem.style.fill = `rgb(${colors[index][0]},${colors[index][1]},${colors[index][2]})`;
+      });
+  });
+};
 const getpalette = (canvas) => {
   console.log(canvas)
   var url = canvas.toDataURL() ;
   image.src = url ;
   document.body.appendChild( image ) ;
+  if (image.complete) {
+    colors = colorThief.getPalette(image, 10);
+    showcolors(colors);
+  } else {
+    image.addEventListener('load', () => {
+      colors = colorThief.getPalette(image, 10);
+      showcolors(colors);
+    });
+  }
 };
 // const getobject;
 
