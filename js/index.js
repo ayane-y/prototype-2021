@@ -2,6 +2,7 @@ const colorThief = new ColorThief();
 var image = new Image() ;
 const fileInput = image;
 let colors;
+
 //色解析
 const showcolors = (colors) => {
   const palettelist = document.querySelectorAll('.js-palette');
@@ -14,6 +15,17 @@ const showcolors = (colors) => {
       });
   });
 };
+
+//かたち解析
+const showobjects = (objects) => {
+  const objectlist = document.querySelectorAll('.js-objects');
+  objectlist.forEach((objectItem, index) => {
+    console.log(objects[index].label);
+    objectItem.innerHTML = `<b>${objects[index].label}</b>`
+  });
+};
+
+ //カメラ写真　色解析
 const getpalette = (canvas) => {
   console.log(canvas)
   var url = canvas.toDataURL() ;
@@ -29,7 +41,27 @@ const getpalette = (canvas) => {
     });
   }
 };
-// const getobject;
+
+//カメラ写真　カタチ解析
+const  getobject = (canvas) => {
+  console.log(canvas)
+  var url = canvas.toDataURL() ;
+  image.src = url ;
+  document.body.appendChild( image ) ;
+  if (image.complete) {
+    classifier.classify(image, (err, results) => {
+      objects = (err, results);
+      showobjects(objects);
+    });
+  } else {
+    image.addEventListener('load', () => {
+      classifier.classify(image, (err, results) => {
+        objects = (err, results);
+        showobjects(objects);
+      });
+    });
+  }
+};
 
 // ファイルが change された時の処理
 const handleFileSelect = () => {
@@ -95,7 +127,9 @@ window.onload = () => {
   
       // canvasに画像を貼り付ける
       ctx.drawImage(videoList.item(index), 0, 0, canvasList.item(index).width, canvasList.item(index).height);
+
       getpalette(canvasList.item(index));
+      getobject(canvasList.item(index));
     });
   });
 };
