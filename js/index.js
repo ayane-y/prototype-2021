@@ -2,6 +2,19 @@ const colorThief = new ColorThief();
 var image = new Image() ;
 const fileInput = image;
 let colors;
+//モンスター選択
+// const monsterList = document.getElementById("monster_id");
+// console.log(monsterList);
+var monsterList = [];
+for (var i = 0; i < 26; ++i) {
+  monsterList.push(document.getElementById("monster_id_" + i));
+}
+console.log(monsterList[0].childNodes);
+
+//モンスターアニメーション
+gsap.set(monsterList,{
+  opacity: 0,//透明にする
+});
 
 //色解析
 const showcolors = (colors) => {
@@ -10,9 +23,13 @@ const showcolors = (colors) => {
     paletteItem.style.backgroundColor = `rgb(${colors[index][0]},${colors[index][1]},${colors[index][2]})`
     //SVGの色変換
     const pathList = document.querySelectorAll(`.path`);
-      pathList.forEach((pathItem, index) => {
-        pathItem.style.fill = `rgb(${colors[index][0]},${colors[index][1]},${colors[index][2]})`;
+    pathList.forEach((pathItem, index) => {
+      pathItem.style.fill = `rgb(${colors[index][0]},${colors[index][1]},${colors[index][2]})`;
+      //モンスターアニメーション
+      gsap.to(monsterList,{
+        opacity: 1,//無透明にする
       });
+    });
   });
 };
 
@@ -20,14 +37,13 @@ const showcolors = (colors) => {
 const showobjects = (objects) => {
   const objectlist = document.querySelectorAll('.js-objects');
   objectlist.forEach((objectItem, index) => {
-    console.log(objects[index].label);
+    // console.log(objects[index].label);
     objectItem.innerHTML = `<b>${objects[index].label}</b>`
   });
 };
 
  //カメラ写真　色解析
 const getpalette = (canvas) => {
-  console.log(canvas)
   var url = canvas.toDataURL() ;
   image.src = url ;
   document.body.appendChild( image ) ;
@@ -44,7 +60,6 @@ const getpalette = (canvas) => {
 
 //カメラ写真　カタチ解析
 const  getobject = (canvas) => {
-  console.log(canvas)
   var url = canvas.toDataURL() ;
   image.src = url ;
   document.body.appendChild( image ) ;
@@ -128,8 +143,17 @@ window.onload = () => {
       // canvasに画像を貼り付ける
       ctx.drawImage(videoList.item(index), 0, 0, canvasList.item(index).width, canvasList.item(index).height);
 
-      getpalette(canvasList.item(index));
-      getobject(canvasList.item(index));
+      if (index=1) {
+        getpalette(canvasList.item(0));
+        console.log('色');
+        console.log(index);
+      } else {
+        getobject(canvasList.item(1));
+        console.log('かたち');
+        console.log(index);
+      }
+      // getpalette(canvasList.item(index));
+      // getobject(canvasList.item(index));
     });
   });
 };
