@@ -27,7 +27,7 @@ const showcolors = (colors) => {
       pathItem.style.fill = `rgb(${colors[index][0]},${colors[index][1]},${colors[index][2]})`;
       //モンスターアニメーション
       gsap.to(monsterList,{
-        opacity: 1,//無透明にする
+        opacity: 1,//不透明にする
       });
     });
   });
@@ -45,6 +45,7 @@ const showobjects = (objects) => {
  //カメラ写真　色解析
 const getpalette = (canvas) => {
   var url = canvas.toDataURL() ;
+  var image = new Image();
   image.src = url ;
   document.body.appendChild( image ) ;
   if (image.complete) {
@@ -61,6 +62,7 @@ const getpalette = (canvas) => {
 //カメラ写真　カタチ解析
 const  getobject = (canvas) => {
   var url = canvas.toDataURL() ;
+  var image = new Image();
   image.src = url ;
   document.body.appendChild( image ) ;
   if (image.complete) {
@@ -134,7 +136,7 @@ window.onload = () => {
       const ctx = canvasList.item(index).getContext("2d");
   
       // 演出的な目的で一度映像を止めてSEを再生する
-      videoList.item(index).pause();  // 映像を停止
+      // videoList.item(index).pause();  // 映像を停止
       // se.play();      // シャッター音
       // setTimeout( () => {
       //   video.play();    // 0.5秒後にカメラ再開
@@ -143,14 +145,12 @@ window.onload = () => {
       // canvasに画像を貼り付ける
       ctx.drawImage(videoList.item(index), 0, 0, canvasList.item(index).width, canvasList.item(index).height);
 
-      if (index=1) {
+      if (index === 0) {
         getpalette(canvasList.item(0));
         console.log('色');
-        console.log(index);
       } else {
         getobject(canvasList.item(1));
         console.log('かたち');
-        console.log(index);
       }
       // getpalette(canvasList.item(index));
       // getobject(canvasList.item(index));
