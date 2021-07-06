@@ -3,8 +3,6 @@ var image = new Image() ;
 const fileInput = image;
 let colors;
 //モンスター選択
-// const monsterList = document.getElementById("monster_id");
-// console.log(monsterList);
 var monsterList = [];
 for (var i = 0; i < 26; ++i) {
   monsterList.push(document.getElementById("monster_id_" + i));
@@ -39,6 +37,19 @@ const showobjects = (objects) => {
   objectlist.forEach((objectItem, index) => {
     // console.log(objects[index].label);
     objectItem.innerHTML = `<b>${objects[index].label}</b>`
+    console.log(objects[0].label.charAt(0));
+    //モンスターアニメーション
+    if (objects[0].label.charAt(0) === 's') {
+      console.log('スラ')
+      gsap.to(monsterList[0],{
+        opacity: 1,//不透明にする
+      });
+    } else {
+      console.log('豚')
+      gsap.to(monsterList[1],{
+        opacity: 1,//不透明にする
+      });
+    }
   });
 };
 
@@ -134,6 +145,11 @@ window.onload = () => {
   .forEach((shutter,index) =>　{
     shutter.addEventListener("click", () => {
       const ctx = canvasList.item(index).getContext("2d");
+
+      //モンスターアニメーションリセット
+      gsap.set(monsterList,{
+        opacity: 0,//透明にする
+      });
   
       // 演出的な目的で一度映像を止めてSEを再生する
       // videoList.item(index).pause();  // 映像を停止
@@ -147,10 +163,8 @@ window.onload = () => {
 
       if (index === 0) {
         getpalette(canvasList.item(0));
-        console.log('色');
       } else {
         getobject(canvasList.item(1));
-        console.log('かたち');
       }
       // getpalette(canvasList.item(index));
       // getobject(canvasList.item(index));
