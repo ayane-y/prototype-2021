@@ -19,15 +19,29 @@ const showcolors = (colors) => {
   const palettelist = document.querySelectorAll('.js-palette');
   palettelist.forEach((paletteItem, index) => {
     paletteItem.style.backgroundColor = `rgb(${colors[index][0]},${colors[index][1]},${colors[index][2]})`
-    //SVGの色変換
-    const pathList = document.querySelectorAll(`.path`);
-    pathList.forEach((pathItem, index) => {
-      pathItem.style.fill = `rgb(${colors[index][0]},${colors[index][1]},${colors[index][2]})`;
-      //モンスターアニメーション
-      gsap.to(monsterList,{
-        opacity: 1,//不透明にする
-      });
-    });
+  });
+
+  //モンスターアニメーション
+  gsap.set(monsterList,{
+    opacity: 1,//透明にする
+  });
+
+  //SVGの色変換
+  const path0List = document.querySelectorAll(`.path-color-0`);
+  path0List.forEach((pathItem, index) => {
+    pathItem.style.fill = `rgb(${colors[0][0]},${colors[0][1]},${colors[0][2]})`;
+  });
+  const path1List = document.querySelectorAll(`.path-color-1`);
+  path1List.forEach((pathItem, index) => {
+    pathItem.style.fill = `rgb(${colors[1][0]},${colors[1][1]},${colors[1][2]})`;
+  });
+  const path2List = document.querySelectorAll(`.path-color-2`);
+  path2List.forEach((pathItem, index) => {
+    pathItem.style.fill = `rgb(${colors[2][0]},${colors[2][1]},${colors[2][2]})`;
+  });
+  const path3List = document.querySelectorAll(`.path-color-3`);
+  path3List.forEach((pathItem, index) => {
+    pathItem.style.fill = `rgb(${colors[3][0]},${colors[3][1]},${colors[3][2]})`;
   });
 };
 
