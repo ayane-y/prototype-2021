@@ -35,10 +35,10 @@ const showcolors = (colors) => {
 const showobjects = (objects) => {
   const objectlist = document.querySelectorAll('.js-objects');
   objectlist.forEach((objectItem, index) => {
-    // console.log(objects[index].label);
     objectItem.innerHTML = `<b>${objects[index].label}</b>`
     console.log(objects[0].label.charAt(0));
-    //モンスターアニメーション
+
+    //モンスターアニメーション分岐
     if (objects[0].label.charAt(0) === 's') {
       console.log('スラ')
       gsap.to(monsterList[0],{
@@ -50,6 +50,7 @@ const showobjects = (objects) => {
         opacity: 1,//不透明にする
       });
     }
+
   });
 };
 
