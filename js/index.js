@@ -43,6 +43,14 @@ const showcolors = (colors) => {
   path3List.forEach((pathItem, index) => {
     pathItem.style.fill = `rgb(${colors[3][0]},${colors[3][1]},${colors[3][2]})`;
   });
+  const path4List = document.querySelectorAll(`.path-color-4`);
+  path4List.forEach((pathItem, index) => {
+    pathItem.style.fill = `rgb(${colors[4][0]},${colors[4][1]},${colors[4][2]})`;
+  });
+  const path5List = document.querySelectorAll(`.path-color-5`);
+  path5List.forEach((pathItem, index) => {
+    pathItem.style.fill = `rgb(${colors[5][0]},${colors[5][1]},${colors[5][2]})`;
+  });
 };
 
 //かたち解析
@@ -58,10 +66,20 @@ const showobjects = (objects) => {
       gsap.to(monsterList[0],{
         opacity: 1,//不透明にする
       });
+    // } else if(objects[0].label.charAt(0) === 'b') {
+    //   console.log('スラ兄')
+    //   gsap.to(monsterList[2],{
+    //     opacity: 1,
+    //   });
+    // } else if(objects[0].label.charAt(0) === 'c') {
+    //   console.log('スラ姉')
+    //   gsap.to(monsterList[3],{
+    //     opacity: 1,
+    //   });
     } else {
       console.log('豚')
       gsap.to(monsterList[1],{
-        opacity: 1,//不透明にする
+        opacity: 1,
       });
     }
 
